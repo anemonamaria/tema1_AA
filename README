@@ -1,0 +1,107 @@
+Moraru Anemona-Maria
+323 CC
+Noiembrie 2020
+
+Implementarea codului a durat aproximativ 30 de ore deoarece am avut unele
+dificultati in gasirea unui algoritm care sa se incadreze in complexitatea
+ceruta. In urma acestui fapt, am considerat ca mi-as usura munca daca as
+schimba anumite antete ale functiilor pe care le-am apelat apoi in
+antetele functiilor cerute in cadrul temei.
+
+In fisierul sequence.h se gasesc structura de date aleasa, functiile cerute
+precum si functiile adaugate de mine. Strucutra de date pe care am ales sa o
+folosesc reprezinta un arbore format din doi subarbori (left si right), item-ul
+de tip TYPE (int) in care retin continutul unui nod, tree_dim in care retin
+dimensiunea subarborelui de la un nod, avand inclusiv numarata si nodul curent
+si priority in care sunt introduse valori in mod aleator prin functia srand()
+pentru echilibrarea arborelui.
+
+Functia init() initializeaza o structura Sequence. In aceasta atribuim memorie
+structurii, inseram valoarea 1 in tree_dim (este un nod creat in arbore),
+initializam priority cum am mentionat mai sus, atribuim NULL structurii din
+partea stanga si celei din partea dreapta. In final, returnam structura vida.
+Aceasta functie are complexitatea O(1).
+
+Functia insert() insereaza un element in structura pe pozitia index. In aceasta
+implementare ne folosim de 3 functii: split(), init() si concat(). Initial,
+impart structura in dreptul elementului index folosind functia split(). Creez
+un nou nod in care introduc item, apoi concatenez acest nod de partea stanga a
+arborelui principal, adica de arborele stang obtinut dupa ce am folosit split.
+In final concatenez arborele obtinut inainte la partea dreata a arborelui
+initial. In final, returnam arborele in urma inserarii. Aceasta functie se
+foloseste de 2 functii(split() si concat()) cu complexitate O(log n) (vor fi
+explicate imediat, amales sa descriu functiile in ordinea lor din enunt) de 3
+ori si de o functie(init()) de complexitate O(1). De aici rezulta ca functia
+insert are complexitatea O(log n).
+
+Functia delete() sterge elementul de pe pozitia index din structura. Asemenea
+functiei de inserare, si aici ma folosesc de aceleasi doua functii, split() si
+concat(). Realizam prima impartire a arborelui prin functia split(), dupa
+aplicarea acesteia stim ca elementul de pe pozitia index se va afla in membrul
+drept al arborelui. Efectuam din nou functia de impartirea, rezultand de aici
+ca am reusit sa separam nodul cu index din arborele initial. Concatenam membrul
+stang din prima impartire a arborelui cu membrul drept din a doua impartire a
+arborelui, de aici rezultand noul arbore fara elementul initial aflat la
+pozitia index.Aceasta functie se foloseste de 2 functii(split() si concat())
+cu complexitate O(log n) de 3 ori, rezultand complexitatea functiei delete()
+de O(log n).
+
+Functia lookup() returneaza valoarea elementului de pe pozitia index. In
+aceasta functie ma folosesc de recursivitate si de functia size(). In primul
+rand, verific daca structura este vida, in caz afirmativ returnez -999999999 de
+eroare si ies din program. Cautam in subarborii stangi sau drepti pana gasim
+elementul cu indexul cerut. Am pornit de la dimensiunea subarborelui stang,
+daca trecem la subarborele drept calculam valoarea indexului. Aceasta
+implementare are ca baza binary search tree, diferenta fiind ca nu cautam in
+functie de valori, ci de index. Atunci cand am gasit indexul cautat, returnam
+elementul ce se afla in nodul respectiv. Functia folosita size() are
+complexitatea O(1). Functia lookup() are complexitatea O(log n) deoarece
+cu fiecare apel al fucntiei recursive coboram cate un  nivel in inaltimea
+arborelui. O(log n)
+
+Functia set() este una dintre functiile in care am considerat ca imi este mai
+usor sa folosesc un alt antet asa ca voi explica functia my_set in cele ce
+urmeaza. In functia set() verific daca arborele este vid, in caz afirmativ ies
+din functie, altfel apelez functia my_set si returnez arborele obtinut.
+Principiul functiei my_set este pornit din ideea functiei lookup(), parcurgand
+cand in partea stanga, cand in partea dreapta in functie indexul cautat. In
+momentul in care gasim indexul, introducem in item-ul structurii valoarea pe
+care o dorim. Fiind pe baza ideii functiei lookup, explicatia este aceeasi
+pentru complexitatea acesteia de O(log n). In concluzie, functia set() apeland
+doar functia my_set() si aceasta are complexitatea O(log n).
+
+Functia size() returneaza dimensiunea structurii. In fiecare structura retin
+numarul de noduri fii pentru a-mi facilita acest lucru. Prima data verific daca
+stuctura contine ceva, in caz negativ returnez 0, altfel returnez tree_dim
+aflat in definitia structurii fiecarui nod. Astfel, complexitatea acestei
+functii este de O(1).
+
+Functia split() returneaza cele doua structuri rezultate in urma divizarii,
+rezultatul fiind retinut intr-un vector de structuri cu doua elemente. Si
+aici am considerat ca daca imi creez alta functie pot rezolva mai usor cerinta.
+In interiorul functiei split() initializez un vector de structuri, verific
+daca structura introdusa este vida, in caz afirmativ ies din program. Apoi
+apelez functia my_split si returnez vectorul rezultat. In functia split()
+caut indexul dat in mod recursiv, in functie de acesta decidem daca elementul
+se afla in dreapta sau in stanga. Ne folosim de o structura auxiliara care
+atribuie pe rand membrului stang si drept structurile rezultate. Functia
+my_split() are complexitatea O(log n) deoarece cu fiecare apel al fucntiei
+recursive coboram cate un  nivel in inaltimea arborelui. Functia split()
+foloseste doar functie my_split() de aici rezultand complexitatea O(log n)
+a functiei my_split().
+
+Functia concat() returneaza structura rezultata dupa concatenare. In aceasta
+functie aplicam recursivitatea si apelam functia size pentru a reinitializa
+tree_dim pentru structura rezultata in urma concatenarii. Functia size() are
+complexitatea O(1) deci nu va influenta complexitatea functiei in discutie. In
+primul rand verificam daca una din structurile date este vida, in caz
+afirmativ returnam cealalta structura. Verificam care nod are prioritatea
+cea mai mare si vom pastra acel nod ca si "root", il vom lasa pe loc si de el
+vom lipi cealalta structura, facem acest lucru in mod recursiv. In final
+reinitializam tree_dim apeland functia size() si returnam structura nou
+creata. La fiecare apelare arborii isi modifica inaltimea cu maxim 1, de aici
+rezulta complexitatea 2*O(log n) = O(log n) a functiei concat().
+
+Toate functiile sunt realizate in complexitate O(1) sau cel mult O(log n),
+mai putin functia inorder() care are complexitatea O(n), functie pe care am
+folosit-o pentru a verifica functionalitate celorlalte functii.
