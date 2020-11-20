@@ -1,6 +1,6 @@
 typedef int Type;
 
-//structura unui nod de arbore cartezian cu chei implicite
+//  structura de treap
 typedef struct sequence
 {
 	int priority, tree_dim;
@@ -38,4 +38,3 @@ void inorder(Sequence data_structure);
 void my_set(Sequence data_structure, Type item, int index);
 // Înlocuieste valoarea elementului de pe pozitia index
 // ne usureaza lucrul in C
-

@@ -10,7 +10,7 @@ antetele functiilor cerute in cadrul temei.
 
 In fisierul sequence.h se gasesc structura de date aleasa, functiile cerute
 precum si functiile adaugate de mine. Strucutra de date pe care am ales sa o
-folosesc reprezinta un arbore format din doi subarbori (left si right), item-ul
+folosesc reprezinta un treap format din doi subarbori (left si right), item-ul
 de tip TYPE (int) in care retin continutul unui nod, tree_dim in care retin
 dimensiunea subarborelui de la un nod, avand inclusiv numarata si nodul curent
 si priority in care sunt introduse valori in mod aleator prin functia srand()

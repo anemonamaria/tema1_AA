@@ -10,7 +10,7 @@ Sequence init()
 	srand(time(NULL));
 	Sequence new_seq = (Sequence)malloc(sizeof(struct sequence));
 	new_seq->left = new_seq->right = NULL;
-	new_seq->priority = rand()%1000000000 + 1; // echilibram arborele pentru
+	new_seq->priority = rand()%1000000000 + 1; // echilibram arborele
 	new_seq->tree_dim = 1; // un singur nod in arbore
 
 	return new_seq;
@@ -58,12 +58,12 @@ Type lookup(Sequence data_structure, int index)
 	if (data_structure == NULL)  // structura nu contine nimic
 		return -999999999;  // => nu gaseste nimic
 	// radacina e in stanga, cautam indicele
-	if (size(data_structure->left) > index)
+	if (size(data_structure->left) + 1 > index)
 		return lookup(data_structure->left, index);
-	else if (size(data_structure->left)  < index)
+	else if (size(data_structure->left) + 1  < index)
 	{
 		// daca este in partea dreapta, actualizam indecele
-		int new_index = index - size(data_structure->left) -1 ;
+		int new_index = index - size(data_structure->left) - 1;
 		// ne mutam in partea dreapta
 		return lookup(data_structure->right, new_index);
 	}
@@ -110,7 +110,9 @@ Sequence* split(Sequence data_structure, int index)
 // --> complexitate O(log n)
 Sequence concat(Sequence data_structure1, Sequence data_structure2) {
 	// Returneaza structura rezultata dupa concatenare
-	// Verificam daca una din structuri este cumva vida, in acest caz
+	if (data_structure1 == NULL && data_structure2 == NULL)
+		return NULL;
+		// Verificam daca una din structuri este cumva vida, in acest caz
 	// o returnam pe cealalta
 	if (data_structure1 == NULL)
 		return data_structure2;
@@ -147,7 +149,7 @@ void my_split(Sequence data_structure, int index, Sequence* left_data_struct,
 	Sequence aux;
 	// cautam locatia in care vrem sa impartim arborele comparand indexul cu nr
 	// de elemente retinute in subarborele stang, inclusiv cu radacina acestuia
-	if (index < size(data_structure->left) + 1)
+	if (size(data_structure->left) + 1 > index)
 	{
 		// impartim la stanga si cautam locul din nou
 		my_split(data_structure->left, index, left_data_struct, &aux);
@@ -158,22 +160,22 @@ void my_split(Sequence data_structure, int index, Sequence* left_data_struct,
 	{
 		// impartim la stanga si cautam locul din nou
 		my_split(data_structure->right, index - size(data_structure->left) + 1
-												, &aux, right_data_struct);
+				, &aux, right_data_struct);
 		*left_data_struct = data_structure;
 		(*left_data_struct)->right = aux;
 	}
 	// reinitializam numarul de noduri
 	data_structure->tree_dim = size(data_structure->left) +
-										 size(data_structure->right) + 1;
+									size(data_structure->right) + 1;
 }
 
 void my_set(Sequence data_structure, Type item, int index)
 {
 	// Înlocuieste valoarea elementului de pe pozitia index
 	// Radacina e in stanga, cautam indicele in stanga
-	if(size(data_structure->left) > index)
+	if(size(data_structure->left) + 1 > index)
 		my_set(data_structure->left, item, index);
-	else if (size(data_structure->left) < index)
+	else if (size(data_structure->left) + 1 < index)
 	{
 		// daca este in partea dreapta, actualizam indecele
 		int new_index = index - size(data_structure->left) - 1;
@@ -218,8 +220,8 @@ int main()
 
 	printf("\nLookup pentru index=3   => %d\n", lookup(new_seq, 3));
 
-	new_seq = set(new_seq, 8, 0);
-	printf("Introducem in index=8 item=8\n");
+	new_seq = set(new_seq, 8, 1);
+	printf("Introducem in index=1 item=8\n");
 	inorder(new_seq);
 
 	printf("\nDimensiunea arborelui in urma operatiilor facute este:");
